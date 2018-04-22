@@ -77,7 +77,7 @@ class Env(object):
         self.property[0] = [1, [0, 0, 0]]
 
     def _init_group(self):
-        for i in xrange(self.agent_num):
+        for i in range(self.agent_num):
             self.id_group[i + 1] = 0
 
     def _gen_power(self, cnt):
@@ -121,8 +121,8 @@ class Env(object):
             return
         np.random.seed(seed)
         # Generate wall according to the prob
-        for i in xrange(self.h):
-            for j in xrange(self.w):
+        for i in range(self.h):
+            for j in range(self.w):
                 if i == 0 or i == self.h - 1 or j == 0 or j == self.w - 1:
                     self.map[i][j] = -1
                     continue
@@ -134,7 +134,7 @@ class Env(object):
         if agent_num == None:
             agent_num = self.args.agent_number
 
-        for i in xrange(agent_num):
+        for i in range(agent_num):
             while True:
                 x = np.random.randint(0, self.h)
                 y = np.random.randint(0, self.w)
@@ -173,7 +173,7 @@ class Env(object):
         if agent_num == 0:
             return
 
-        for i in xrange(agent_num):
+        for i in range(agent_num):
             while True:
                 x = np.random.randint(0, self.h)
                 y = np.random.randint(0, self.w)
@@ -195,7 +195,7 @@ class Env(object):
         if pig_nums == None:
             pig_nums = self.args.pig_max_number
 
-        for i in xrange(pig_nums):
+        for i in range(pig_nums):
             while True:
                 x = np.random.randint(0, self.h)
                 y = np.random.randint(0, self.w)
@@ -210,7 +210,7 @@ class Env(object):
         if rabbit_num is None:
             rabbit_num = self.args.rabbit_max_number
 
-        for i in xrange(rabbit_num):
+        for i in range(rabbit_num):
             while True:
                 x = np.random.randint(0, self.h)
                 y = np.random.randint(0, self.w)
@@ -388,14 +388,14 @@ class Env(object):
                 pass
 
         else:
-            print action
-            print "Wrong Action ID!!!!"
+            print(action)
+            print("Wrong Action ID!!!!")
 
     def take_action(self, actions):
 
         # Move Agent
         self.actions = actions
-        # for i in xrange(self.agent_num):
+        # for i in range(self.agent_num):
         for id, action in actions:
             x, y = self.id_pos[id]
             face = self.property[id][0][2]
@@ -416,7 +416,7 @@ class Env(object):
 
     def group_monitor(self):
         """
-        :return: group_num, mean_size, variance_size, max_size 
+        :return: group_num, mean_size, variance_size, max_size
         """
         group_sizes = []
         group_view_num = {}
@@ -522,7 +522,7 @@ class Env(object):
                     break
 
     def decrease_health(self):
-        for id, _ in self.id_pos.iteritems():
+        for id, _ in self.id_pos.items():
             self.health[id] -= self.args.damage_per_step
 
     def get_avg_life(self):
@@ -539,7 +539,7 @@ class Env(object):
             return view_size1 if view_size_area1 > view_size_area2 else view_size2
 
         self.dead_id = []
-        for id, pos in self.id_pos.iteritems():
+        for id, pos in self.id_pos.items():
             assert id > 0
             if self.health[id] <= 0.:
                 x, y = pos
@@ -630,12 +630,12 @@ class Env(object):
         new_w, new_h = self.w * 5, self.h * 5
         img = np.zeros((new_w, new_h, 3), dtype=np.uint8)
         length = self.args.img_length
-        for i in xrange(self.w):
-            for j in xrange(self.h):
+        for i in range(self.w):
+            for j in range(self.h):
                 id = self.map[i][j]
                 if id != 0:
-                    for m in xrange(length):
-                        for n in xrange(length):
+                    for m in range(length):
+                        for n in range(length):
                             img[i * length + m][j * length + n] = 255 * np.array(self.property[id][1])
         output_img = Image.fromarray(img, 'RGB')
         output_img.save(img_name)
@@ -647,8 +647,8 @@ def _get_reward_pig(pos):
 
     x, y = pos
     groups_num = {}
-    for i in xrange(-env_reward_radius_pig, env_reward_radius_pig + 1):
-        for j in xrange(-env_reward_radius_pig, env_reward_radius_pig + 1):
+    for i in range(-env_reward_radius_pig, env_reward_radius_pig + 1):
+        for j in range(-env_reward_radius_pig, env_reward_radius_pig + 1):
             new_x, new_y = x + i, y + j
             if in_bound(new_x, new_y):
                 id = env_map[new_x][new_y]
@@ -675,8 +675,8 @@ def _get_reward_rabbit_both(pos):
 
     x, y = pos
     candidates = []
-    for i in xrange(-env_reward_radius_rabbit, env_reward_radius_rabbit + 1):
-        for j in xrange(-env_reward_radius_rabbit, env_reward_radius_rabbit + 1):
+    for i in range(-env_reward_radius_rabbit, env_reward_radius_rabbit + 1):
+        for j in range(-env_reward_radius_rabbit, env_reward_radius_rabbit + 1):
             new_x, new_y = x + i, y + j
             if in_bound(new_x, new_y):
                 id = env_map[new_x][new_y]
@@ -699,8 +699,8 @@ def _get_reward_rabbit_individual(pos):
 
     x, y = pos
     candidates = []
-    for i in xrange(-env_reward_radius_rabbit, env_reward_radius_rabbit + 1):
-        for j in xrange(-env_reward_radius_rabbit, env_reward_radius_rabbit + 1):
+    for i in range(-env_reward_radius_rabbit, env_reward_radius_rabbit + 1):
+        for j in range(-env_reward_radius_rabbit, env_reward_radius_rabbit + 1):
             new_x, new_y = x + i, y + j
             if in_bound(new_x, new_y):
                 id = env_map[new_x][new_y]
@@ -820,7 +820,7 @@ def get_view(env):
     pool = multiprocessing.Pool(processes=cores)
 
     env_id_pos_keys = env_id_pos.keys()
-    env_id_pos_keys.sort()
+    env_id_pos_keys = sorted(env_id_pos_keys)
     pos = [env_id_pos[k] for k in env_id_pos_keys]
     view = pool.map(_get_view, pos)
     pool.close()
@@ -844,7 +844,7 @@ def get_view(env):
 
     batch_views = []
 
-    for i in xrange(int(np.ceil(1. * env_agent_num / env_batch_size))):
+    for i in range(int(np.ceil(1. * env_agent_num / env_batch_size))):
         st = env_batch_size * i
         ed = st + env_batch_size
         if ed > env_agent_num:
@@ -853,7 +853,7 @@ def get_view(env):
         # batch_view_tmp = view[st:ed]
         # batch_ids = ids[st:ed]
         batch_view = []
-        for j in xrange(st, ed):
+        for j in range(st, ed):
             batch_view.append((ids[j], view[j]))
 
         batch_views.append(batch_view)
@@ -883,17 +883,17 @@ def _get_view(pos):
     allies = set()
     face = 0
     if face == 0:
-        # for i in xrange(-range_f, 1):
-        #     for j in xrange(-range_l, range_l + 1):
-        for i in xrange(-max_range_f, 1):
-            for j in xrange(-max_range_l, max_range_l + 1):
+        # for i in range(-range_f, 1):
+        #     for j in range(-range_l, range_l + 1):
+        for i in range(-max_range_f, 1):
+            for j in range(-max_range_l, max_range_l + 1):
                 new_x, new_y = x + i, y + j
 
                 if not in_bound(new_x, new_y) or i < -range_f or j < -range_l or j > range_l:
                     single_view[cur_pos] = [1, 1, 0, 0, 0]
                 else:
-                    if env_id_group[env_map[x][y]] == 0 and env_map[new_x][new_y] > 0 and i in xrange(-min_range_f,
-                                                                                                      1) and j in xrange(
+                    if env_id_group[env_map[x][y]] == 0 and env_map[new_x][new_y] > 0 and i in range(-min_range_f,
+                                                                                                      1) and j in range(
                         -min_range_l, min_range_l + 1):
                         allies.add(env_map[new_x][new_y])
                     single_view[cur_pos][0], single_view[cur_pos][1], single_view[cur_pos][2] = \
@@ -921,16 +921,16 @@ def _get_view(pos):
                 env_ally = (id, ally_id)
 
     elif face == 1:
-        # for i in xrange(-range_l, range_l + 1):
-        #     for j in xrange(0, range_f + 1):
-        for i in xrange(-max_range_l, max_range_l + 1):
-            for j in xrange(0, max_range_f + 1):
+        # for i in range(-range_l, range_l + 1):
+        #     for j in range(0, range_f + 1):
+        for i in range(-max_range_l, max_range_l + 1):
+            for j in range(0, max_range_f + 1):
                 new_x, new_y = x + i, y + j
                 if not in_bound(new_x, new_y) or i < -range_l or i > range_l or j > range_f:
                     single_view[cur_pos] = [1, 1, 0, 0, 0]
                 else:
-                    if env_id_group[env_map[x][y]] == 0 and env_map[new_x][new_y] > 0 and i in xrange(-min_range_l,
-                                                                                                      min_range_l + 1) and j in xrange(
+                    if env_id_group[env_map[x][y]] == 0 and env_map[new_x][new_y] > 0 and i in range(-min_range_l,
+                                                                                                      min_range_l + 1) and j in range(
                         0, min_range_f + 1):
                         allies.add(env_map[new_x][new_y])
                     single_view[cur_pos][0], single_view[cur_pos][1], single_view[cur_pos][2] = \
@@ -957,16 +957,16 @@ def _get_view(pos):
     elif face == 2:
         # range_i_st, range_i_ed = -range_f, 0
         # range_j_st, range_j_ed = -range_l, range_l
-        # for i in xrange(range_f, -1):
-        #     for j in xrange(range_l, -range_l - 1):
-        for i in xrange(max_range_f, -1, -1):
-            for j in xrange(max_range_l, -max_range_l - 1, -1):
+        # for i in range(range_f, -1):
+        #     for j in range(range_l, -range_l - 1):
+        for i in range(max_range_f, -1, -1):
+            for j in range(max_range_l, -max_range_l - 1, -1):
                 new_x, new_y = x + i, y + j
                 if not in_bound(new_x, new_y) or i > range_f or j > range_l or j < -range_l:
                     single_view[cur_pos] = [1, 1, 0, 0, 0]
                 else:
-                    if env_id_group[env_map[x][y]] == 0 and env_map[new_x][new_y] > 0 and i in xrange(min_range_f, -1,
-                                                                                                      -1) and j in xrange(
+                    if env_id_group[env_map[x][y]] == 0 and env_map[new_x][new_y] > 0 and i in range(min_range_f, -1,
+                                                                                                      -1) and j in range(
                         min_range_l, -min_range_l - 1, -1):
                         allies.add(env_map[new_x][new_y])
                     single_view[cur_pos][0], single_view[cur_pos][1], single_view[cur_pos][2] = \
@@ -991,18 +991,18 @@ def _get_view(pos):
 
 
     elif face == 3:
-        # for i in xrange(range_l, -range_l - 1):
-        #    for j in xrange(-range_f, 1):
-        for i in xrange(max_range_l, -max_range_l - 1, -1):
-            for j in xrange(-max_range_f, 1):
-                print "miaomiaomiao"
+        # for i in range(range_l, -range_l - 1):
+        #    for j in range(-range_f, 1):
+        for i in range(max_range_l, -max_range_l - 1, -1):
+            for j in range(-max_range_f, 1):
+                print("miaomiaomiao")
                 new_x, new_y = x + i, y + j
                 if not in_bound(new_x, new_y) or i > range_l or i < -range_l or j < -range_f:
                     single_view[cur_pos] = [1, 1, 0, 0, 0]
                 else:
-                    if env_id_group[env_map[x][y]] == 0 and env_map[new_x][new_y] > 0 and i in xrange(min_range_l,
+                    if env_id_group[env_map[x][y]] == 0 and env_map[new_x][new_y] > 0 and i in range(min_range_l,
                                                                                                       -min_range_l - 1,
-                                                                                                      -1) and j in xrange(
+                                                                                                      -1) and j in range(
                         -min_range_f, 1):
                         allies.add(env_map[new_x][new_y])
                     single_view[cur_pos][0], single_view[cur_pos][1], single_view[cur_pos][2] = \
@@ -1027,6 +1027,6 @@ def _get_view(pos):
                 env_ally = (id, ally_id)
 
     else:
-        print "Error Face!!!"
+        print("Error Face!!!")
     assert cur_pos == (2 * max_range_l + 1) * (max_range_f + 1)
     return single_view.reshape(-1), env_ally, env_map[x][y]

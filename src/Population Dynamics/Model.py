@@ -72,7 +72,7 @@ class Model_DNN():
             if policy == 'e_greedy':
                 all_actions = range(self.args.num_actions)
                 actions = []
-                for i in xrange(len(value_s_a)):
+                for i in range(len(value_s_a)):
                     if random.random() < epsilon:
                         actions.append(np.random.choice(all_actions))
                     else:
@@ -135,7 +135,7 @@ class Model_DNN():
                 ret_value.append(item[1])
             return ret_id, ret_value
 
-        for i in xrange(len(view_batches)):
+        for i in range(len(view_batches)):
             view_id, view_value = self.process_view_with_emb_batch(view_batches[i])
             action_id, action_value = split_id_value(actions_batches[i])
             maxQ_id, maxQ_value = split_id_value(maxQ_batches[i])

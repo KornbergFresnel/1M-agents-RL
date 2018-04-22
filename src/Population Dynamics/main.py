@@ -87,7 +87,7 @@ if __name__ == '__main__':
 
     if argv.load_dir:
         model.load(sess, argv.load_dir)
-        print 'Load model from ' + argv.load_dir
+        print('Load model from ' + argv.load_dir)
 
     if not os.path.exists(argv.images_dir):
         os.mkdir(argv.images_dir)
@@ -100,7 +100,7 @@ if __name__ == '__main__':
 
     log = open(argv.log_file, 'w')
     log_largest_group = open('log_largest_group.txt', 'w')
-    for r in xrange(argv.round):
+    for r in range(argv.round):
         video_flag = False
         if argv.video_per_round > 0 and r % argv.video_per_round == 0:
             video_flag = True
@@ -110,7 +110,7 @@ if __name__ == '__main__':
             except:
                 shutil.rmtree(img_dir)
                 os.makedirs(img_dir)
-        for t in xrange(argv.time_step):
+        for t in range(argv.time_step):
             if t == 0 and video_flag:
                 env.dump_image(os.path.join(img_dir, '%d.png' % t))
 
@@ -129,7 +129,7 @@ if __name__ == '__main__':
             rewards = get_reward(env)  # r, a dictionary
             env.increase_health(rewards)
             total_reward = 0
-            for k, v in rewards.iteritems():
+            for k, v in rewards.items():
                 total_reward += v
 
             new_view_batches = get_view(env)  # s'
@@ -152,11 +152,11 @@ if __name__ == '__main__':
                    (r, t, cur_pig_num, group_num, mean_size, variance_size, max_size, cur_rabbit_num)
             if group_view_num is not None:
                 for k in group_view_num:
-                    x = map(int, k[1:-1].split(','))
+                    x = list(map(int, k[1:-1].split(',')))
                     group_view_info = '\tView\t%d\tnumber\t%d' % (
                         (2 * x[0] + 1) * (x[1] + 1), group_view_num[k])
                     info += group_view_info
-                    print group_view_info
+                    print(group_view_info)
             info += '\tagent_num\t%d' % env.get_agent_num()
 
             join_num = 0
@@ -179,7 +179,7 @@ if __name__ == '__main__':
             info += '\tavg_life\t%f' % (avg_life)
             info += '\ttotal_dead_people\t%f' % (dead_people)
 
-            print info
+            print(info)
 
             # print 'average degroup number:\t', avg_degroup
             log.write(info + '\n')
@@ -225,7 +225,7 @@ if __name__ == '__main__':
                 os.mkdir(os.path.join(argv.save_dir, "round_%d" % r))
             model_path = os.path.join(argv.save_dir, "round_%d" % r, "model.ckpt")
             model.save(sess, model_path)
-            print 'model saved into ' + model_path
+            print('model saved into ' + model_path)
         if video_flag:
             images = [os.path.join(img_dir, ("%d.png" % i)) for i in range(argv.time_step + 1)]
             env.make_video(images=images, outvid=os.path.join(argv.video_dir, "%d.avi" % r))
