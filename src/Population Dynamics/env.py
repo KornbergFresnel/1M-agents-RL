@@ -1,11 +1,13 @@
+from __future__ import print_function
 import os
 import random
 import multiprocessing
-from PIL import Image
+import cv2
 import numpy as np
+
+from PIL import Image
 from cv2 import VideoWriter, imread, resize
 from copy import deepcopy
-import cv2
 
 
 # from model import inference, train

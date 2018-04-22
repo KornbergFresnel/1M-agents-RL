@@ -1,6 +1,7 @@
+from __future__ import print_function
+import random
 import tensorflow as tf
 import numpy as np
-import random
 
 
 class Model_DNN():

@@ -1,11 +1,13 @@
+from __future__ import print_function
+import os
 import sys
-from env import Env, get_view, get_reward
-from Model import Model_DNN
+import time
+import shutil
 import argparse
 import tensorflow as tf
-import os
-import shutil
-import time
+
+from env import Env, get_view, get_reward
+from Model import Model_DNN
 
 if __name__ == '__main__':
     argparser = argparse.ArgumentParser(sys.argv[0])
